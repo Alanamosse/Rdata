@@ -20,11 +20,16 @@ for (i in 1:len){
 
     attribute_val<-eval(parse(text=paste("rdata$",attribute,sep="")))
 
+	if(is.null(attribute_val)){
+		write.table("Return NULL value",file = file)
+		next
+	}
+
     if (typeof(attribute_val)=="list") {
         attribute_val<-as.data.frame(do.call(rbind, attribute_val))
     }else if ( typeof(attribute_val)=="language") {
         attribute_val<-toString(attribute_val,width = NULL)
-        write(attribute_val,file = file)
+        write.table(attribute_val,file = file)
         next
     }
     write.table(attribute_val,file = file)
