@@ -1,0 +1,14 @@
+for (i in 1:len){
+    attribute<-attributes[i]
+    print(attribute)
+    file<-paste("~/Bureau/attribute",i,".txt",sep="")
+    attribute_val<-eval(parse(text=paste("y$",attribute,sep="")))
+    if (typeof(attribute_val)=="list") {
+        attribute_val<-as.data.frame(do.call(rbind, attribute_val))
+    }else if ( typeof(attribute_val)=="language") {
+        attribute_val<-toString(attribute_val,width = NULL)
+        write(attribute_val,file = file)
+        next
+    }
+    write.table(attribute_val,file = file)
+}
