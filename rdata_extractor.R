@@ -18,6 +18,10 @@ len<-length(attributes[[1]])
 
 for (i in 1:len){
 	attribute<-attributes[[1]][i] #Get the attribute i 
+	if(! any(names(rdata)==attribute)){
+		error<-paste(attribute, " doesn't exist in the RData. Check the inputs files")
+		write(error, stderr())
+	}
 	file<-paste(attributes[[1]][i],".tsv",sep="") #Filename definition
 
 	attribute_val<-eval(parse(text=paste("rdata$",attribute,sep=""))) #Extract the value(s)
