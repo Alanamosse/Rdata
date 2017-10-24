@@ -13,9 +13,8 @@ sum<-summary(rdata)
 attributes_selected <- commandArgs(trailingOnly=TRUE)[2]
 attributes<-strsplit(attributes_selected, ",") #List of elements
 
-len<-length(attributes[[1]])
-
 write.table(sum,file = "summary.tsv")
+len<-length(attributes[[1]])
 
 for (i in 1:len){
 	attribute<-attributes[[1]][i] #Get the attribute i 
@@ -28,12 +27,18 @@ for (i in 1:len){
 		next #Exit loop
 	}
 
-	if (typeof(attribute_val)=="list") { #Need to be corrected, fail in galaxy but not in R
-		attribute_val<-as.data.frame(do.call(rbind, attribute_val))
-	}else if ( typeof(attribute_val)=="language") { #OK
+	if (typeof(attribute_val)=="list"){ #Need to be corrected, fail in galaxy but not in R
+		if(length(attribute_val)=="0"){
+			sink(file=file)
+			print("Empty list :") #If the list is empty without element, file is empty and an error occur in galaxy
+			print(attribute_val)
+			sink()
+			next
+		}else{
+			attribute_val<-as.data.frame(do.call(rbind, attribute_val))
+		}
+	}else if (typeof(attribute_val)=="language"){ #OK
 		attribute_val<-toString(attribute_val,width = NULL)
-		write.table(attribute_val,file = file)
-		next
 	}
 	write.table(attribute_val,file = file)
 
