@@ -8,6 +8,8 @@ Can happen when multiple files are avaibles and the user doesn't select the good
 
 Add a test section in the xmls files.
 
+Adapt the files extensions.
+
 ## Known errors
 * Execution fail when the variable to extract return a null value
 	* Resolved
